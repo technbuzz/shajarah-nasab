@@ -16,7 +16,10 @@
           }
         },
         "title": "Alexander Lemtov Live",
-        "description": "",
+        "description": {
+          "en":"",
+          "ur":""
+        },
         "price": 65.0,
         "image": "concert",
         "color": "#711E63",
