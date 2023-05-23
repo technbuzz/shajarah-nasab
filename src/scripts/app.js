@@ -18,10 +18,10 @@ function loadPersons(data) {
     const li = document.createElement('li')
     const { title, firstName, lastName } = item.name.ur
     li.innerHTML = `
-      <div class="person">
-        <img src="img/user.png" width="64">
-        <h3 class="person__name">${title} ${firstName} ${lastName}</h3>
-        <p>${item.description.ur}</p>
+      <div class="person text-center">
+        <img class="m-auto" src="img/user.png" width="64">
+        <h3 class="person__name font-bold text-lg">${title} ${firstName} ${lastName}</h3>
+        <p class="text-slate-400">${item.description.ur}</p>
       </div>
     `
 
