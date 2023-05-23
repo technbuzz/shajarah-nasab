@@ -30,6 +30,11 @@
             "title": "Baba",
             "firstName": "Noor",
             "lastName": "Uddin"
+          },
+          "ur": {
+            "title": "بابا",
+            "firstName": "نور",
+            "lastName": "الدین"
           }
         },
         "date": "1/11/2024",

@@ -17,7 +17,13 @@ function loadPersons(data) {
   data.forEach(item => {
     const li = document.createElement('li')
     const { title, firstName, lastName } = item.name.ur
-    li.textContent = `${title} ${firstName} ${lastName}`
+    li.innerHTML = `
+      <div class="person">
+        <img src="img/user.png" width="64">
+        <h3 class="person__name">${title} ${firstName} ${lastName}</h3>
+      </div>
+    `
+
     persons.appendChild(li)
   })
 
