@@ -1,0 +1,14 @@
+body {
+  text-align: center;
+}
+
+.person-list {
+  list-style-type: none;
+}
+
+.person-list li {
+  border-radius: 1rem;
+  border: 1px dashed #ccc;
+  display: inline-block;
+  padding: 1rem;
+}
