@@ -33,6 +33,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           echo Add other actions to build,
-          npm run ci
+          npm ci
           echo test, and deploy your project.
           npm run build
