@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { auth } from 'firebase'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { Button } from 'vexip-ui'
 
 interface Creds {
   email: string;
@@ -18,33 +18,26 @@ function doLogin() {
     .catch(error => console.log(error))
 }
 
-  // defineProps({
-  //   formData: {
-  //     type: Object as () => FormData,
-  //     required: true
-  //   }
-  // })
-
 </script>
 
 <template>
   <form @submit.prevent="doLogin" class="space-y-4">
     <p>
       <label>
-        Email:
+        ای میل
         <input type="text" v-model="formData.email">
       </label>
     </p>
 
     <p>
       <label>
-        Password:
+        پاس ورڈ
         <input type="text" v-model="formData.password">
       </label>
     </p>
     <p>
-      <button type="submit">محفوظ کریں</button>
-      <button type="button" @click="$emit('close')">خروج</button>
+      <Button type="primary">محفوظ کریں</Button>
+      <Button button-type="button" @click="$emit('close')">خروج</Button>
     </p>
   </form>
 </template>
