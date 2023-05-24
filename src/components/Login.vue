@@ -43,7 +43,8 @@ function doLogin() {
       </label>
     </p>
     <p>
-      <button type="submit">Submit</button>
+      <button type="submit">محفوظ کریں</button>
+      <button type="button" @click="$emit('close')">خروج</button>
     </p>
   </form>
 </template>

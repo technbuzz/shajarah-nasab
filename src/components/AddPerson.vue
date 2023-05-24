@@ -35,12 +35,6 @@ function addPerson() {
   addDoc(personsRef, formData.value)
 }
 
-  // defineProps({
-  //   formData: {
-  //     type: Object as () => FormData,
-  //     required: true
-  //   }
-  // })
 
 </script>
 
@@ -48,9 +42,9 @@ function addPerson() {
   <form @submit.prevent="addPerson" class="space-y-4">
     <p>
       <label>
-        Title
+        لقب
         <select v-model="formData.name.ur.title">
-          <option disabled value="">Please select one</option>
+          <option disabled value="">--</option>
           <option value="Mr.">Mr.</option>
           <option value="بابا">بابا</option>
         </select>
@@ -58,25 +52,25 @@ function addPerson() {
     </p>
     <p>
       <label>
-        First Name:
+پہلا نام:
         <input type="text" v-model="formData.name.ur.firstName">
       </label>
     </p>
 
     <p>
       <label>
-        Last Name:
+        ٓآخری نام:
         <input type="text" v-model="formData.name.ur.lastName">
       </label>
     </p>
     <p>
       <label>
-        Description:
+        مزید
         <textarea v-model="formData.description.ur"></textarea>
       </label>
     </p>
     <p>
-      <button type="submit">Submit</button>
+      <button type="submit">محفوظ کریں</button>
     </p>
   </form>
   <pre>{{ formData }}</pre>
