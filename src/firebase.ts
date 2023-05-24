@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { collection, getFirestore } from "firebase/firestore";
 
 export const firebaseApp = initializeApp({
   apiKey: "AIzaSyCxbe_9k1n1YXGvzvmC0RNnuoap7Jsjm4A",
@@ -11,4 +11,8 @@ export const firebaseApp = initializeApp({
   measurementId: "G-56D2EB8JVH"
 })
 
+// used for the firestore refs
 const db = getFirestore(firebaseApp)
+
+// here we can export reusable database references
+export const personsRef = collection(db, 'persons')
