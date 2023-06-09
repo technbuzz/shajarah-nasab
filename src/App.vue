@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useCollection } from 'vuefire'
-import { RouterLink, RouterView } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { RouterView } from 'vue-router'
+import { ref } from 'vue'
 import { personsRef } from "./firebase";
 import PersonName from './components/PersonName.vue'
-import  { Person } from "./components/Person";
+import {type Person}  from "./components/Person";
 import AddPerson  from "./components/AddPerson.vue";
 import Header  from "./components/Header.vue";
 

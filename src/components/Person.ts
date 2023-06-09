@@ -1,4 +1,4 @@
-export  interface Person {
+export interface Person {
   name: {
     en: {
       title: string;

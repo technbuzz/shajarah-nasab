@@ -2,7 +2,7 @@
 import { useCurrentUser } from 'vuefire';
 import Login from "./Login.vue";
 import { getAuth } from 'firebase/auth';
-import { ref, defineComponent} from 'vue';
+import { ref } from 'vue';
 
 const auth = getAuth()
 const user = useCurrentUser()

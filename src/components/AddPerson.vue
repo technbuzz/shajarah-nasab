@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
-import { ref, reactive, onMounted } from 'vue';
+import { addDoc,  doc, setDoc } from 'firebase/firestore';
+import { ref,  onMounted } from 'vue';
 import { useDocument } from "vuefire";
 import { personsRef } from '../firebase'
 
@@ -41,7 +41,6 @@ let form = ref({
     en: '',
   }
 })
-let perosnDocument = ref<any>('sami')
 
 onMounted(() => {
   if (props.id) {
@@ -67,23 +66,16 @@ async function addPerson() {
 <template>
   <v-card>
     <v-card-text>
-      <pre>{{ form }} </pre>
       <v-form ref="formRef" @submit.prevent="addPerson">
         <!-- <legend>Welcome back!</legend> -->
-        <v-select label="لقب" v-model="form.name.ur.title" :items="['Mr.', 'بابا']"></v-select>
-        <v-text-field v-model="form.name.ur.firstName" label=" پہلا نام: " name="firstName" />
-        <v-text-field v-model="form.name.ur.lastName" label=" ٓآخری نام: " name="lastName" />
+        <v-select label="لقب" v-model="form.name.ur.title" :items="['', 'Mr.', 'بابا']"></v-select>
+        <v-text-field  v-model="form.name.ur.firstName" label=" پہلا نام " name="firstName" />
+        <v-text-field  v-model="form.name.ur.lastName" label=" ٓآخری نام " name="lastName" />
         <v-textarea v-model="form.description.ur" label=" مزید " name="lastName"></v-textarea>
-        <v-btn @click="$emit('close')">خروج</v-btn>
         <v-btn type="submit" color="primary">محفوظ کریں</v-btn>
+        <v-btn @click="$emit('close')">خروج</v-btn>
       </v-form>
     </v-card-text>
   </v-card>
 </template>
 
-<style scoped>
-input,
-textarea {
-  @apply border rounded;
-}
-</style>

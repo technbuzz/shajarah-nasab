@@ -8,15 +8,23 @@ import { VTextarea } from 'vuetify/components/VTextarea'
 import { VSelect } from 'vuetify/components/VSelect'
 
 export const vuetify = createVuetify({
+  defaults: {
+    VTextField: {
+      style: 'line-height: 2'
+    }
+  },
+  // locale: {
+  //   locale: 'ar'
+  // },
   components: {
-    VBtn,
-    VCard,
-    VCardText,
-    VDialog,
-    VForm,
-    VTextField,
-    VTextarea,
-    VSelect
+    // VBtn,
+    // VCard,
+    // VCardText,
+    // VDialog,
+    // VForm,
+    // VTextField,
+    // VTextarea,
+    // VSelect
   },
   // components,
   directives: {},
