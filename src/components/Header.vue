@@ -8,6 +8,7 @@ import { Modal, Button } from "vexip-ui";
 const auth = getAuth()
 const user = useCurrentUser()
 const modalActive = ref(false)
+const dialog = ref(false)
 
 function logout() {
   auth.signOut()
@@ -15,6 +16,7 @@ function logout() {
 
 function presentLogin() {
   modalActive.value = true
+  dialog.value = true
 }
 
 function hideLogin() {
@@ -35,16 +37,25 @@ function hideLogin() {
     <h1 class="text-2xl mt-2 mb-4 font-bold">شجرۃ نسب ۔ قریش</h1>
     <h2 class="text-xl my-1 mb-6 font-bold">سکن گاون ۔ کنگانہ۔ قوم شیخان ۔ تپہ سموزی</h2> <!-- </div> -->
   </header>
-  <p v-if="user">User is logged in <Button @click="logout">Logout</Button></p>
-  <p v-else><Button @click="presentLogin">Login</Button></p>
-    <Modal
-      v-model:active="modalActive"
-      title="لاگ ان"
-      :width="300"
-      top="auto"
-      transfer
-      no-footer
-    >
-    <Login @close="hideLogin" />
-    </Modal>
+  <!-- <p v-if="user">User is logged in <Button @click="logout">Logout</Button></p> -->
+  <!-- <p v-else><Button @click="presentLogin">Login</Button></p> -->
+    <Button @click="presentLogin">Login</Button>
+    <!-- <Modal -->
+    <!--   v-model:active="modalActive" -->
+    <!--   title="لاگ ان" -->
+    <!--   :width="300" -->
+    <!--   top="auto" -->
+    <!--   transfer -->
+    <!--   no-footer -->
+    <!-- > -->
+    <!-- <Login @close="hideLogin" /> -->
+    <!-- </Modal> -->
+
+    <v-btn color="primary"> Open Dialog </v-btn>
+    <v-dialog title="Login" v-model="dialog" width="400" >
+
+        <Login @close="hideLogin" />
+
+    </v-dialog>
+
 </template>
