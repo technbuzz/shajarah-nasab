@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { Button } from 'vexip-ui'
 import { reactive } from 'vue';
 
 interface Creds {
@@ -9,18 +7,19 @@ interface Creds {
   password: string;
 }
 
-const formData = ref<Creds | null>({
-  email: '',
-  password: '',
-})
+const emits = defineEmits([
+  'close'
+])
 
 const form = reactive({
   email: '',
   password: ''
 })
 function doLogin() {
+debugger
   const auth = getAuth()
-  signInWithEmailAndPassword(auth, formData.value.email, formData.value.password).then(respone => console.log(response))
+  signInWithEmailAndPassword(auth, form.email, form.password)
+    .then(_ => emits('close'))
     .catch(error => console.log(error))
 }
 
@@ -39,8 +38,8 @@ function doLogin() {
         name="password"
         type="password"
       />
-      <v-btn >خروج</v-btn>
-      <v-btn color="primary" @click="$emit('close')">محفوظ کریں</v-btn>
+      <v-btn @click="$emit('close')">خروج</v-btn>
+      <v-btn type="submit" color="primary" >محفوظ کریں</v-btn>
     </v-form>
   </v-container>
       <!-- <form @submit.prevent="doLogin" class="space-y-4"> -->
@@ -59,8 +58,6 @@ function doLogin() {
       <!--   </p> -->
       <!-- </form> -->
     </v-card-text>
-    <v-card-actions>
-    </v-card-actions>
   </v-card>
 </template>
 

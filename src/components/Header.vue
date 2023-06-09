@@ -20,6 +20,7 @@ function presentLogin() {
 }
 
 function hideLogin() {
+  dialog.value = false
   modalActive.value = false
 }
 
@@ -37,9 +38,8 @@ function hideLogin() {
     <h1 class="text-2xl mt-2 mb-4 font-bold">شجرۃ نسب ۔ قریش</h1>
     <h2 class="text-xl my-1 mb-6 font-bold">سکن گاون ۔ کنگانہ۔ قوم شیخان ۔ تپہ سموزی</h2> <!-- </div> -->
   </header>
-  <!-- <p v-if="user">User is logged in <Button @click="logout">Logout</Button></p> -->
-  <!-- <p v-else><Button @click="presentLogin">Login</Button></p> -->
-    <Button @click="presentLogin">Login</Button>
+  <p v-if="user">User is logged in <Button @click="logout">Logout</Button></p>
+  <p v-else><Button @click="presentLogin">Login</Button></p>
     <!-- <Modal -->
     <!--   v-model:active="modalActive" -->
     <!--   title="لاگ ان" -->
@@ -51,7 +51,6 @@ function hideLogin() {
     <!-- <Login @close="hideLogin" /> -->
     <!-- </Modal> -->
 
-    <v-btn color="primary"> Open Dialog </v-btn>
     <v-dialog title="Login" v-model="dialog" width="400" >
 
         <Login @close="hideLogin" />
