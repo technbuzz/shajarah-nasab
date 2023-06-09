@@ -16,3 +16,5 @@ const db = getFirestore(firebaseApp)
 
 // here we can export reusable database references
 export const personsRef = collection(db, 'persons')
+
+
