@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "firebase": "^9.22.0",
-    "vexip-ui": "^2.1.21",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0",
     "vuefire": "^3.1.0",
