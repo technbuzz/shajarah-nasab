@@ -3,7 +3,6 @@ import { useCurrentUser } from 'vuefire';
 import Login from "./Login.vue";
 import { getAuth } from 'firebase/auth';
 import { ref, defineComponent} from 'vue';
-import { Modal, Button } from "vexip-ui";
 
 const auth = getAuth()
 const user = useCurrentUser()
@@ -38,10 +37,8 @@ function hideLogin() {
     <h1 class="text-2xl mt-2 mb-4 font-bold">شجرۃ نسب ۔ قریش</h1>
     <h2 class="text-xl my-1 mb-6 font-bold">سکن گاون ۔ کنگانہ۔ قوم شیخان ۔ تپہ سموزی</h2> <!-- </div> -->
   </header>
-  <!-- <pre>{{user}}</pre> -->
-<!-- User is logged in <Button @click="logout">Logout</Button> -->
-  <p v-if="user">User is logged in <Button @click="logout">Logout</Button></p>
-  <p v-else><Button @click="presentLogin">Login</Button></p>
+  <p v-if="user">User is logged in <v-btn @click="logout">Logout</v-btn></p>
+  <p v-else><v-btn @click="presentLogin">Login</v-btn></p>
 
     <v-dialog title="Login" v-model="dialog" width="400" >
 

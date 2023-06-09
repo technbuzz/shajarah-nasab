@@ -7,14 +7,13 @@ interface Creds {
   password: string;
 }
 
-const emits = defineEmits([
-  'close'
-])
+const emits = defineEmits([ 'close' ])
 
 const form = reactive({
   email: '',
   password: ''
 })
+
 function doLogin() {
   debugger
   const auth = getAuth()
@@ -28,15 +27,13 @@ function doLogin() {
 <template>
   <v-card>
     <v-card-text>
-      <v-container class="pt-10">
-        <v-form @submit.prevent="doLogin">
-          <legend>Welcome back!</legend>
-          <v-text-field v-model="form.email" label="Email" name="email" />
-          <v-text-field v-model="form.password" label="Password" name="password" type="password" />
-          <v-btn @click="$emit('close')">خروج</v-btn>
-          <v-btn type="submit" color="primary">محفوظ کریں</v-btn>
-        </v-form>
-      </v-container>
+      <v-form @submit.prevent="doLogin">
+        <!-- <legend>Welcome back!</legend> -->
+        <v-text-field v-model="form.email" label="Email" name="email" />
+        <v-text-field v-model="form.password" label="Password" name="password" type="password" />
+        <v-btn @click="$emit('close')">خروج</v-btn>
+        <v-btn type="submit" color="primary">محفوظ کریں</v-btn>
+      </v-form>
     </v-card-text>
   </v-card>
 </template>
