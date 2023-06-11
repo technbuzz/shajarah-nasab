@@ -13,18 +13,18 @@ export const vuetify = createVuetify({
       style: 'line-height: 2'
     }
   },
-  // locale: {
-  //   locale: 'ar'
-  // },
+  locale: {
+    locale: 'ar'
+  },
   components: {
-    // VBtn,
-    // VCard,
-    // VCardText,
-    // VDialog,
-    // VForm,
-    // VTextField,
-    // VTextarea,
-    // VSelect
+    VBtn,
+    VCard,
+    VCardText,
+    VDialog,
+    VForm,
+    VTextField,
+    VTextarea,
+    VSelect
   },
   // components,
   directives: {},

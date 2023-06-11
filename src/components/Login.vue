@@ -29,10 +29,10 @@ function doLogin() {
     <v-card-text>
       <v-form @submit.prevent="doLogin">
         <!-- <legend>Welcome back!</legend> -->
-        <v-text-field v-model="form.email" label="Email" name="email" />
+        <v-text-field v-model="form.email" label=" اِی میل " name="email" />
         <v-text-field v-model="form.password" label="Password" name="password" type="password" />
-        <v-btn @click="$emit('close')">خروج</v-btn>
         <v-btn type="submit" color="primary">محفوظ کریں</v-btn>
+        <v-btn @click="$emit('close')">خروج</v-btn>
       </v-form>
     </v-card-text>
   </v-card>
