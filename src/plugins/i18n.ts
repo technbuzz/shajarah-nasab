@@ -7,6 +7,7 @@ const messages = {
       close: 'Close',
       login: 'Login',
       logout: 'Logout',
+      language: 'Language'
     },
     form: {
       emil: 'Email',
@@ -18,7 +19,8 @@ const messages = {
     verb: {
       close: 'خروج',
       login: 'لاگ اِن',
-      logout: 'لاگ اوُٹ '
+      logout: 'لاگ اوُٹ ',
+      language: 'زبان'
     },
     form: {
       email: 'اِی میل',
