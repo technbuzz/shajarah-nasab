@@ -4,6 +4,9 @@ import { useCurrentUser } from 'vuefire';
 import Login from "./Login.vue";
 import { getAuth } from 'firebase/auth';
 import { ref } from 'vue';
+import { useLocale } from "vuetify";
+
+      const { current } = useLocale()
 
 const auth = getAuth()
 const user = useCurrentUser()
@@ -20,9 +23,17 @@ function presentLogin() {
   dialog.value = true
 }
 
-function changeLang(event:any) {
-  locale.value = event
+function changeLang(lang:string) {
+  locale.value = lang
+  current.value = lang
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  console.log(document.documentElement.style.fontFamily)
+  document.documentElement.style
+    .setProperty('font-family', `var(--${lang}-locale)`);
+  console.log(document.documentElement.style.fontFamily)
 }
+
 
 function hideLogin() {
   dialog.value = false

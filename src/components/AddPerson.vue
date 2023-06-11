@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import { addDoc,  doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref,  onMounted } from 'vue';
 import { useDocument } from "vuefire";
 import { personsRef } from '../firebase'
+const { t } = useI18n()
 
 const props = defineProps({
   id: {
@@ -69,12 +71,12 @@ async function addPerson() {
     <v-card-text >
       <v-form ref="formRef"  @submit.prevent="addPerson">
         <!-- <legend>Welcome back!</legend> -->
-        <v-select label="لقب" v-model="form.name.ur.title" :items="['', 'Mr.', 'بابا']"></v-select>
-        <v-text-field  v-model="form.name.ur.firstName" label=" پہلا نام " name="firstName" />
-        <v-text-field  v-model="form.name.ur.lastName" label=" ٓآخری نام " name="lastName" />
-        <v-textarea v-model="form.description.ur" label=" مزید " name="description"></v-textarea>
-        <v-btn type="submit" color="primary">محفوظ کریں</v-btn>
-        <v-btn @click="$emit('close')">خروج</v-btn>
+        <v-select v-model="form.name.ur.title" :label="t('form.title')" :items="['', 'Mr.', 'بابا']"></v-select>
+        <v-text-field  v-model="form.name.ur.firstName" :label="t('form.firstName')" name="firstName" />
+        <v-text-field  v-model="form.name.ur.lastName" :label="t('form.lastName')" name="lastName" />
+        <v-textarea v-model="form.description.ur" :label="t('form.desc')" name="description"></v-textarea>
+        <v-btn type="submit" color="primary">{{ t('verb.save') }}</v-btn>
+        <v-btn @click="$emit('close')">{{ t('verb.close')}}</v-btn>
       </v-form>
     </v-card-text>
   </v-card>

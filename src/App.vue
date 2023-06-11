@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import { useCollection } from 'vuefire'
 import { RouterView } from 'vue-router'
 import { ref } from 'vue'
@@ -7,6 +8,7 @@ import PersonName from './components/PersonName.vue'
 import {type Person}  from "./components/Person";
 import AddPerson  from "./components/AddPerson.vue";
 import Header  from "./components/Header.vue";
+const { t } = useI18n()
 
 
 const person= ref<Person[] | null>(null)
@@ -39,12 +41,12 @@ function hidePersonAdd() {
         <img class="m-auto" src="@/assets/user.png" width="64">
         <PersonName :name="item.name.ur" />
         <p class="text-slate-400" v-if="item.description">{{ item.description.ur}}</p>
-        <v-btn size="small" variant="outlined" @click="presentPerson(item.id)">Edit User</v-btn>
+        <v-btn size="small" variant="outlined" @click="presentPerson(item.id)">{{ t('verb.edit')}}</v-btn>
       </div>
     </li>
   </ul>
 
-  <v-btn @click="presentPerson()">Add New Person</v-btn>
+  <v-btn @click="presentPerson()">{{ t('verb.addNew')}}</v-btn>
     <v-dialog title="Login" v-model="addPersonDialog" width="400" >
       <AddPerson :id="personId" @close="hidePersonAdd" />
     </v-dialog>

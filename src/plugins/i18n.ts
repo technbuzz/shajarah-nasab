@@ -7,31 +7,45 @@ const messages = {
       close: 'Close',
       login: 'Login',
       logout: 'Logout',
-      language: 'Language'
+      language: 'Language',
+      addNew: 'New Person',
+      edit: 'Edit',
+      save: 'Save'
     },
     form: {
-      emil: 'Email',
-      password: 'Password'
+      email: 'Email',
+      password: 'Password',
+      title: 'Title',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      desc: 'Description',
     }
   },
-  ur: {
+  ar: {
     login: 'صارف لاگ اِن ہے ',
     verb: {
       close: 'خروج',
       login: 'لاگ اِن',
       logout: 'لاگ اوُٹ ',
-      language: 'زبان'
+      language: 'زبان',
+      addNew: 'نئی اندراج',
+      edit: 'ترمیم',
+      save: 'محفوظ کریں'
     },
     form: {
       email: 'اِی میل',
-      password: ' پاسورڈ '
+      password: ' پاسورڈ ',
+      title: 'لقب',
+      firstName: 'پہلا نام',
+      lastName: 'آخری نام',
+      desc: 'مزید',
     }
   }
 }
 
 export const i18n = createI18n({
   legacy: false,
-  locale: 'ur',
+  locale: 'ar',
   fallback: 'en',
   messages
 })
