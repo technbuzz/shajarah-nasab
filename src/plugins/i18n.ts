@@ -14,6 +14,7 @@ const messages = {
     },
     form: {
       email: 'Email',
+      gender: 'Gender',
       password: 'Password',
       title: 'Title',
       firstName: 'First Name',
@@ -33,6 +34,7 @@ const messages = {
       save: 'محفوظ کریں'
     },
     form: {
+      gender: 'جنس',
       email: 'اِی میل',
       password: ' پاسورڈ ',
       title: 'لقب',

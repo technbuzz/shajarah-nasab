@@ -1,10 +1,15 @@
 export interface Person {
+  id?: string;
+  gender: {
+    ur: '',
+    en?: ''
+  },
   name: {
-    en: {
-      title: string;
-      firstName: string;
-      lastName: string;
-    },
+    // en?: {
+    //   title: string;
+    //   firstName: string;
+    //   lastName: string;
+    // },
     ur: {
       title: string;
       firstName: string;
@@ -12,7 +17,7 @@ export interface Person {
     }
   },
   description: {
-    en: string;
+    en?: string;
     ur: string;
   }
 }
