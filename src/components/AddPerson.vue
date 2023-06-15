@@ -17,9 +17,7 @@ const emit = defineEmits(['close'])
 const formRef = ref<HTMLFormElement>()
 
 let form = ref<Person>({
-  gender: {
-    ur: ''
-  },
+  gender: "",
   name: {
     ur: {
       firstName: "",
