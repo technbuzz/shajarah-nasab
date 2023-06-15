@@ -76,11 +76,8 @@ const persons = useCollection(personsRef, { converter: familyItemConvertor })
 
 const getImage = async (item: any) => {
   const result = await item.img.promise
-  debugger
   return {
     ...item,
-    fullName: item.toString(),
-    id: item.id,
     img: result,
   }
 }
