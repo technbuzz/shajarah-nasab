@@ -8,7 +8,10 @@ import { familyItemConvertor } from './FamilyItem'
 
 const personId = ref<string | undefined>(undefined)
 const addPersonDialog = ref(false)
-const dialog = ref<{visible: boolean, id?: string, fid?: string}>({visible: false, id: '', fid: ''})
+interface DialogType {
+visible: boolean, id?: string, fid?: string, gender?: 'male' | 'female'
+}
+const dialog = ref<DialogType>({visible: false, id: '', fid: ''})
 
 function presentPerson(id?: string) {
   addPersonDialog.value = true
@@ -17,12 +20,19 @@ function presentPerson(id?: string) {
 
 function hidePersonAdd() {
   dialog.value = { visible: false }
-  addPersonDialog.value = false
 }
 
 
 let family: FamilyTree
 const treeRef = ref<HTMLDivElement>()
+
+
+const addSonHandler = (nodeId: string) => {
+  dialog.value = {visible: true, fid: nodeId, gender: 'male'}
+}
+const addDaughterHandler = (nodeId: string) => {
+  dialog.value = {visible: true, fid: nodeId, gender: 'female'}
+}
 
 let editForm = function () {
   this.nodeId = null
@@ -33,9 +43,7 @@ editForm.prototype.init = function (obj:any) {
 }
 
 editForm.prototype.show = function (nodeId: any) {
-  console.log(nodeId)
   this.nodeId = nodeId
-  // addPersonDialog.value = true
   dialog.value = { visible: true, id: nodeId, fid: '' }
   personId.value = nodeId
 }
@@ -43,21 +51,16 @@ editForm.prototype.show = function (nodeId: any) {
 editForm.prototype.hide = function (nodeId: any) {
   console.log('hidden')
 }
-
-const addHandler = (nodeId: string) => {
-  dialog.value = {visible: true, fid: nodeId}
-  console.log('Add handler', nodeId)
-}
-
 function renderTree(domEL: HTMLElement, nodes: any) {
   family = new FamilyTree(domEL, {
     nodes: nodes,
     enableSearch: false,
     enablePan: false,
     nodeContextMenu: {
-      edit: { text: "Add Son", onClick: addHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
+      edit: { text: "Add Son", onClick: addSonHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
+      share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
     },
-    mouseScrool: FamilyTree.action.scroll,
+    // mouseScrool: FamilyTree.action.scroll,
     editUI: new editForm(),
     enableTouch: false,
     template: 'john',
@@ -73,10 +76,7 @@ const persons = useCollection(personsRef, { converter: familyItemConvertor })
 
 const getImage = async (item: any) => {
   const result = await item.img.promise
-  return {
-    ...item,
-    img: result,
-  }
+  return { ...item, img: result }
 }
 
 watch(persons, async (newValue, oldValue) => {
@@ -89,8 +89,8 @@ watch(persons, async (newValue, oldValue) => {
 </script>
 
 <template>
-  <v-dialog title="Login" v-model="dialog.visible" width="400">
-    <AddPerson :fid="dialog.fid" :id="dialog.id" @close="hidePersonAdd" />
+  <v-dialog v-model="dialog.visible" width="400">
+    <AddPerson :fid="dialog.fid" :id="dialog.id" :gender="dialog.gender" @close="hidePersonAdd" />
   </v-dialog>
   <div ref="treeRef" class="tree"></div>
 </template>
@@ -102,14 +102,18 @@ watch(persons, async (newValue, oldValue) => {
 }
 svg.john text{
   font-family: var(--ar-locale) ;
+  transform: translateY(10px)
 }
+
 .bft-family-menu.bft-family-menu {
   min-width: 100px
 }
+
 .bft-family-menu div {
   display: flex;
   align-items: center;
 }
+
 .field_0 {
   /* font-family: Impact; */
   text-transform: uppercase;

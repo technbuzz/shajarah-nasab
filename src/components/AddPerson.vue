@@ -6,16 +6,7 @@ import { personsRef } from '../firebase'
 import type { Person } from "./Person";
 const { t } = useI18n()
 
-const props = defineProps({
-  id: {
-    type: String,
-    required: false
-  },
-  fid: {
-    type: String,
-    required: false
-  }
-});
+const props = defineProps(['id','fid','gender']);
 const emit = defineEmits(['close'])
 
 const formRef = ref<HTMLFormElement>()
@@ -40,16 +31,20 @@ onMounted(async () => {
   if (props.id) {
     const resp =  await getDoc(doc(personsRef, props.id))
     form.value = resp.data() as unknown as any
-    emit('close')
   } else if(props.fid){
     form.value.fid = props.fid
+    if(props.gender === 'male') {
+      form.value.gender = props.gender
+    } else {
+      form.value.gender = props.gender
+    }
   } else {
     formRef.value?.reset()
   }
 
 })
 
-async function addPerson() {
+async function upSertPerson() {
   if (props.id) {
     await setDoc(doc(personsRef, props.id), form.value)
   } else {
@@ -77,7 +72,7 @@ async function remove(id:string) {
 <template>
   <v-card>
     <v-card-text >
-      <v-form ref="formRef"  @submit.prevent="addPerson">
+      <v-form ref="formRef"  @submit.prevent="upSertPerson">
         <!-- <legend>Welcome back!</legend> -->
         <div class="flex" >
           <v-select class="me-1.5" v-model="form.name.ur.title" :label="t('form.title')" :items="['', 'Mr.', 'بابا']"></v-select>
