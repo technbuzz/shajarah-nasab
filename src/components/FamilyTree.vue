@@ -55,14 +55,14 @@ function renderTree(domEL: HTMLElement, nodes: any) {
   family = new FamilyTree(domEL, {
     nodes: nodes,
     enableSearch: false,
-    enablePan: false,
     nodeContextMenu: {
       edit: { text: "Add Son", onClick: addSonHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
       share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
     },
-    // mouseScrool: FamilyTree.action.scroll,
+    mouseScrool: FamilyTree.action.scroll,
+    // mouseScrool: FamilyTree.action.zoom,
     editUI: new editForm(),
-    enableTouch: true,
+    // enableTouch: true,
     template: 'john',
     nodeBinding: {
       field_0: "fullName",
