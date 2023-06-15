@@ -62,7 +62,7 @@ function renderTree(domEL: HTMLElement, nodes: any) {
     },
     // mouseScrool: FamilyTree.action.scroll,
     editUI: new editForm(),
-    enableTouch: false,
+    // enableTouch: true,
     template: 'john',
     nodeBinding: {
       field_0: "fullName",
