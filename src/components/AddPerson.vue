@@ -10,6 +10,10 @@ const props = defineProps({
   id: {
     type: String,
     required: false
+  },
+  fid: {
+    type: String,
+    required: false
   }
 });
 const emit = defineEmits(['close'])
@@ -17,6 +21,7 @@ const emit = defineEmits(['close'])
 const formRef = ref<HTMLFormElement>()
 
 let form = ref<Person>({
+  fid: "",
   gender: "",
   name: {
     ur: {
@@ -35,6 +40,9 @@ onMounted(async () => {
   if (props.id) {
     const resp =  await getDoc(doc(personsRef, props.id))
     form.value = resp.data() as unknown as any
+    emit('close')
+  } else if(props.fid){
+    form.value.fid = props.fid
   } else {
     formRef.value?.reset()
   }
@@ -53,12 +61,11 @@ async function addPerson() {
 async function remove(id:string) {
   if(props.id) {
     try {
+      console.log(personsRef)
       const resp =  await getDoc(doc(personsRef, props.id))
-
       await deleteDoc(doc(personsRef, resp.id))
       emit('close')
     } catch (error) {
-
       console.log('something went wrong')
     }
   }
@@ -74,7 +81,8 @@ async function remove(id:string) {
         <!-- <legend>Welcome back!</legend> -->
         <div class="flex" >
           <v-select class="me-1.5" v-model="form.name.ur.title" :label="t('form.title')" :items="['', 'Mr.', 'بابا']"></v-select>
-          <v-select v-model="form.gender.ur" :label="t('form.gender')" :items="['مرد','عورت' ]"></v-select>
+          <v-select v-model="form.gender" :label="t('form.gender')" 
+            :items="[{ title: 'مرد', value: 'male' },{ title:'عورت', value: 'female'}]"></v-select>
         </div>
         <v-text-field  v-model="form.name.ur.firstName" :label="t('form.firstName')" name="firstName" />
         <v-text-field  v-model="form.name.ur.lastName" :label="t('form.lastName')" name="lastName" />
