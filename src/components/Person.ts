@@ -1,10 +1,4 @@
-export interface Person {
-  id?: string;
-  gender: {
-    ur: '',
-    en?: ''
-  },
-  name: {
+export interface PersonName {
     // en?: {
     //   title: string;
     //   firstName: string;
@@ -15,7 +9,15 @@ export interface Person {
       firstName: string;
       lastName: string;
     }
-  },
+}
+
+export interface Person {
+  id?: string;
+  pid?: string[];
+  fid?: string;
+  gender: string;
+  name: PersonName;
+  fullName?: string,
   description: {
     en?: string;
     ur: string;
