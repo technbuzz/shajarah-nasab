@@ -2,15 +2,15 @@
 import { useCollection } from 'vuefire'
 import FamilyTree from '@balkangraph/familytree.js'
 import { ref, onMounted, watch } from 'vue';
-import AddPerson  from "./AddPerson.vue";
-import {type Person}  from "./Person";
+import AddPerson from "./AddPerson.vue";
+import { type Person } from "./Person";
 import { personsRef } from '../firebase';
-import {familyItemConvertor} from './FamilyItem'
+import { familyItemConvertor } from './FamilyItem'
 
-const personId = ref<string|undefined>(undefined)
+const personId = ref<string | undefined>(undefined)
 const addPersonDialog = ref(false)
 
-function presentPerson(id?:string) {
+function presentPerson(id?: string) {
   addPersonDialog.value = true
   personId.value = id
 }
@@ -36,22 +36,22 @@ const nodes = ref([
   { id: 5, fid: 1, name: "Emma Stevens", gender: "female", img: "https://cdn.balkan.app/shared/w10/3.jpg" }
 ])
 
-let editForm = function() {
+let editForm = function () {
   this.nodeId = null
 }
 
-editForm.prototype.init = function(obj) {
+editForm.prototype.init = function (obj) {
   this.obj = obj
 }
 
-editForm.prototype.show = function(nodeId: any) {
+editForm.prototype.show = function (nodeId: any) {
   console.log(nodeId)
   this.nodeId = nodeId
   addPersonDialog.value = true
   personId.value = nodeId
 }
 
-editForm.prototype.hide = function(nodeId: any) {
+editForm.prototype.hide = function (nodeId: any) {
   console.log('hidden')
 }
 
@@ -72,14 +72,16 @@ function renderTree(domEL: HTMLElement, nodes: any) {
 
 }
 
-const persons = useCollection(personsRef, { converter: familyItemConvertor})
+const persons = useCollection(personsRef, { converter: familyItemConvertor })
 
-const getImage = async (item:any) => {
+const getImage = async (item: any) => {
   const result = await item.img.promise
-  return { 
-    fullName: item.toString(), 
-    id: item.id, 
-    img: result
+  debugger
+  return {
+    ...item,
+    fullName: item.toString(),
+    id: item.id,
+    img: result,
   }
 }
 
@@ -93,15 +95,23 @@ watch(persons, async (newValue, oldValue) => {
 </script>
 
 <template>
-  <v-dialog title="Login" v-model="addPersonDialog" width="400" >
+  <v-dialog title="Login" v-model="addPersonDialog" width="400">
     <AddPerson :id="personId" @close="hidePersonAdd" />
   </v-dialog>
   <div ref="treeRef" class="tree"></div>
 </template>
 
-<style scoped>
+<style >
 .tree {
   width: 100%;
   height: 100%;
+}
+svg.john text{
+  font-family: var(--ar-locale) ;
+    }
+.field_0 {
+  /* font-family: Impact; */
+  text-transform: uppercase;
+  fill: #cfcfcf;
 }
 </style>

@@ -9,7 +9,8 @@ const mountainFileRef = ref(storage, 'male.png')
 class FamilyItem {
 
   img: any;
-  constructor(readonly name: PersonName, readonly id: string, readonly gender: any) {
+  constructor(readonly name: PersonName, readonly id: string, 
+    readonly gender: any, readonly fid: string, readonly pids: string) {
     this.img = useStorageFileUrl(mountainFileRef)
   }
 
@@ -28,6 +29,6 @@ export const familyItemConvertor = {
     options: SnapshotOptions
   ): FamilyItem {
     const data = snapshot.data(options);
-    return new FamilyItem(data.name, snapshot.id, data.gender);
+    return new FamilyItem(data.name, snapshot.id, data.gender, data.fid, data.pids);
   }
 }

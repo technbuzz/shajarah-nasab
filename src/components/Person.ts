@@ -13,6 +13,8 @@ export interface PersonName {
 
 export interface Person {
   id?: string;
+  pid?: string[];
+  fid?: string;
   gender: string;
   name: PersonName;
   fullName?: string,

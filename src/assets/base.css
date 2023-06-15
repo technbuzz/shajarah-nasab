@@ -69,9 +69,10 @@ body {
   background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family:  var(--ur-locale) ;
+  font-family:  var(--ar-locale) ;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
