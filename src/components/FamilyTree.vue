@@ -12,6 +12,7 @@ interface DialogType {
 visible: boolean, id?: string, fid?: string, gender?: 'male' | 'female'
 }
 const dialog = ref<DialogType>({visible: false, id: '', fid: ''})
+const isLoading = ref(true)
 
 function presentPerson(id?: string) {
   addPersonDialog.value = true
@@ -69,6 +70,9 @@ function renderTree(domEL: HTMLElement, nodes: any) {
       img_0: "img",
     }
   })
+  family.on('ready', () => {
+    isLoading.value = false
+  })
 
 }
 
@@ -83,12 +87,14 @@ watch(persons, async (newValue, oldValue) => {
   const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
   console.log(fullNameMapped)
   renderTree(treeRef.value, fullNameMapped)
+
   // renderTree(treeRef.value, nodes.value)
 })
 
 </script>
 
 <template>
+  <span v-if="isLoading">Loading...</span>
   <v-dialog v-model="dialog.visible" width="400">
     <AddPerson :fid="dialog.fid" :id="dialog.id" :gender="dialog.gender" @close="hidePersonAdd" />
   </v-dialog>
@@ -102,7 +108,7 @@ watch(persons, async (newValue, oldValue) => {
 }
 svg.john text{
   font-family: var(--ar-locale) ;
-  transform: translateY(10px)
+  /* transform: translateY(10px) */
 }
 
 .bft-family-menu.bft-family-menu {
