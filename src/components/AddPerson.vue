@@ -6,7 +6,7 @@ import { personsRef } from '../firebase'
 import type { Person } from "./Person";
 const { t } = useI18n()
 
-const props = defineProps(['id','fid','gender','pids']);
+const props = defineProps(['id','fid','mid','gender','pids']);
 const emit = defineEmits(['close'])
 
 const formRef = ref<HTMLFormElement>()
@@ -35,15 +35,22 @@ onMounted(async () => {
   if (props.id) {
     const resp =  await getDoc(doc(personsRef, props.id))
     form.value = resp.data() as unknown as any
-  } else if(props.fid){
+  } 
+  if(props.fid){
     form.value.fid = props.fid
     setGenderField()
-  } else if(props.pids.length) {
+  } 
+  if(props.pids?.length) {
     form.value.pids = props.pids
     setGenderField()
-  } else {
-    formRef.value?.reset()
-  }
+  } 
+  if(props.mid) {
+    form.value.mid = props.mid
+    setGenderField()
+   }
+// {
+//     formRef.value?.reset()
+//   }
 
 })
 
@@ -70,7 +77,6 @@ async function upSertPerson() {
 async function remove(id:string) {
   if(props.id) {
     try {
-
       const resp =  await getDoc(doc(personsRef, props.id))
       await deleteDoc(doc(personsRef, resp.id))
       emit('close')

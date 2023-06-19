@@ -6,11 +6,17 @@ import AddPerson from "./AddPerson.vue";
 import { personsRef } from '../firebase';
 import { familyItemConvertor } from './FamilyItem'
 import { query, where } from 'firebase/firestore';
+import type { Person } from './Person';
 
 const personId = ref<string | undefined>(undefined)
 const addPersonDialog = ref(false)
 interface DialogType {
-  visible: boolean, id?: string, pids?: string[], fid?: string, gender?: 'male' | 'female'
+  visible: boolean, 
+  id?: string, 
+  pids?: string[], 
+  fid?: string, 
+  gender?: 'male' | 'female',
+  mid?: string
 }
 const dialog = ref<DialogType>({ visible: false, id: '', fid: '' })
 const isLoading = ref(true)
@@ -29,11 +35,21 @@ let family: FamilyTree
 const treeRef = ref<HTMLDivElement>()
 
 
-const addSonHandler = (nodeId: string) => {
-  dialog.value = { visible: true, fid: nodeId, gender: 'male' }
+const addSonHandler = (nodeId: string, ...args:any[]) => {
+  const node = family.get(nodeId) as Person
+  if(node.gender === 'female' && node.pids?.length) {
+    dialog.value = { visible: true, fid: node.pids[0], mid: node.id, gender: 'male' }
+  } else {
+    dialog.value = { visible: true, fid: nodeId, gender: 'male' }
+  }
 }
 const addDaughterHandler = (nodeId: string) => {
-  dialog.value = { visible: true, fid: nodeId, gender: 'female' }
+  const node = family.get(nodeId) as Person
+  if(node.gender === 'female' && node.pids?.length) {
+    dialog.value = { visible: true, fid: node.pids[0], mid: node.id, gender: 'female' }
+  } else {
+    dialog.value = { visible: true, fid: nodeId, gender: 'female' }
+  }
 }
 const addWifeHandler = (nodeId: string) => {
   dialog.value = { visible: true, pids: [nodeId], gender: 'female' }
@@ -57,15 +73,32 @@ editForm.prototype.hide = function (nodeId: any) {
   console.log('hidden')
 }
 
-FamilyTree.templates.john_male.plus =
-    '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
-    + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>'
-    + '<line x1="0" y1="-11" x2="0" y2="11" stroke-width="1" stroke="#aeaeae"></line>';
-FamilyTree.templates.john_male.minus =
-    '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
-    + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>';
+// FamilyTree.templates.john_male.plus =
+//     '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+//     + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>'
+//     + '<line x1="0" y1="-11" x2="0" y2="11" stroke-width="1" stroke="#aeaeae"></line>';
+// FamilyTree.templates.john_male.minus =
+//     '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+//     + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>';
+// FamilyTree.templates.john_male.defs = 
+//   `<g id="heart" >
+//     <path d="M28 44h-8A12 12 0 0 1 8 32a12 12 0 0 1 12-12h8"/>
+//     <path d="M36 20h8a12 12 0 0 1 12 12 12 12 0 0 1-12 12h-8"/>
+//     <line x1="20" y1="32" x2="44" y2="32"/>
+//   </g>`
+ // FamilyTree.templates.john_male.defs= `
+ //    <g id="heart" stroke-width="0"></g>
+ //      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+ //      <g id="SVGRepo_iconCarrier">
+ //        <path d="M28 44h-8A12 12 0 0 1 8 32a12 12 0 0 1 12-12h8"></path>
+ //        <path d="M36 20h8a12 12 0 0 1 12 12 12 12 0 0 1-12 12h-8"></path>
+ //          <line x1="20" y1="32" x2="44" y2="32"></line>
+ //      </g>`
 
-FamilyTree.templates.john_male.defs = '<g transform="matrix(0.05,0,0,0.05,-12,-9)" id="heart"><path fill="#F57C00" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909  l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778 c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654 c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/><g>';
+// FamilyTree.templates.john_male.defs = 
+//   `<g transform="matrix(0.05,0,0,0.05,-12,-9)" id="heart">
+//     <path fill="#FFFC00" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909  l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778 c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654 c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/>
+//   <g>`;
 function renderTree(domEL: HTMLElement, nodes: any) {
   family = new FamilyTree(domEL, {
     nodes: nodes,
@@ -89,7 +122,6 @@ function renderTree(domEL: HTMLElement, nodes: any) {
     isLoading.value = false
   })
   family.on('expcollclick', function (sender, isCollapsing, nodeId) {
-    debugger
     var node = family.getNode(nodeId);
     if (isCollapsing) {
       family.expandCollapse(nodeId, [], node.ftChildrenIds)
@@ -131,7 +163,7 @@ watch(persons, async (newValue, oldValue) => {
 <template>
   <span v-if="isLoading">Loading...</span>
   <v-dialog v-model="dialog.visible" width="400">
-    <AddPerson :id="dialog.id" :fid="dialog.fid" :pids="dialog.pids" :gender="dialog.gender" @close="hidePersonAdd" />
+    <AddPerson :id="dialog.id" :fid="dialog.fid" :mid="dialog.mid" :pids="dialog.pids" :gender="dialog.gender" @close="hidePersonAdd" />
   </v-dialog>
   <div ref="treeRef" class="tree"></div>
 </template>
