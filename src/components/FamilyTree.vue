@@ -5,13 +5,14 @@ import { ref, watch } from 'vue';
 import AddPerson from "./AddPerson.vue";
 import { personsRef } from '../firebase';
 import { familyItemConvertor } from './FamilyItem'
+import { query, where } from 'firebase/firestore';
 
 const personId = ref<string | undefined>(undefined)
 const addPersonDialog = ref(false)
 interface DialogType {
-visible: boolean, id?: string, fid?: string, gender?: 'male' | 'female'
+  visible: boolean, id?: string, pids?: string[], fid?: string, gender?: 'male' | 'female'
 }
-const dialog = ref<DialogType>({visible: false, id: '', fid: ''})
+const dialog = ref<DialogType>({ visible: false, id: '', fid: '' })
 const isLoading = ref(true)
 
 function presentPerson(id?: string) {
@@ -29,17 +30,20 @@ const treeRef = ref<HTMLDivElement>()
 
 
 const addSonHandler = (nodeId: string) => {
-  dialog.value = {visible: true, fid: nodeId, gender: 'male'}
+  dialog.value = { visible: true, fid: nodeId, gender: 'male' }
 }
 const addDaughterHandler = (nodeId: string) => {
-  dialog.value = {visible: true, fid: nodeId, gender: 'female'}
+  dialog.value = { visible: true, fid: nodeId, gender: 'female' }
+}
+const addWifeHandler = (nodeId: string) => {
+  dialog.value = { visible: true, pids: [nodeId], gender: 'female' }
 }
 
 let editForm = function () {
   this.nodeId = null
 }
 
-editForm.prototype.init = function (obj:any) {
+editForm.prototype.init = function (obj: any) {
   this.obj = obj
 }
 
@@ -52,13 +56,24 @@ editForm.prototype.show = function (nodeId: any) {
 editForm.prototype.hide = function (nodeId: any) {
   console.log('hidden')
 }
+
+FamilyTree.templates.john_male.plus =
+    '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+    + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>'
+    + '<line x1="0" y1="-11" x2="0" y2="11" stroke-width="1" stroke="#aeaeae"></line>';
+FamilyTree.templates.john_male.minus =
+    '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+    + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>';
+
+FamilyTree.templates.john_male.defs = '<g transform="matrix(0.05,0,0,0.05,-12,-9)" id="heart"><path fill="#F57C00" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909  l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778 c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654 c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/><g>';
 function renderTree(domEL: HTMLElement, nodes: any) {
   family = new FamilyTree(domEL, {
     nodes: nodes,
     enableSearch: false,
     nodeContextMenu: {
-      edit: { text: "Add Son", onClick: addSonHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
-      share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5')  },
+      edit: { text: "Add Son", onClick: addSonHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
+      share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
+      pdf: { text: "Add Wife", onClick: addWifeHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
     },
     mouseScrool: FamilyTree.action.scroll,
     // mouseScrool: FamilyTree.action.zoom,
@@ -73,10 +88,30 @@ function renderTree(domEL: HTMLElement, nodes: any) {
   family.on('ready', () => {
     isLoading.value = false
   })
+  family.on('expcollclick', function (sender, isCollapsing, nodeId) {
+    debugger
+    var node = family.getNode(nodeId);
+    if (isCollapsing) {
+      family.expandCollapse(nodeId, [], node.ftChildrenIds)
+    }
+    else {
+      family.expandCollapse(nodeId, node.ftChildrenIds, [])
+    }
+    return false;
+  });
+
+  family.on('render-link', function (sender, args) {
+    if (args.cnode.ppid != undefined)
+      args.html += '<use data-ctrl-ec-id="' + args.node.id + '" xlink:href="#heart" x="' + (args.p.xa) + '" y="' + (args.p.ya) + '"/>';
+    if (args.cnode.isPartner && args.node.partnerSeparation == 30)
+      args.html += '<use data-ctrl-ec-id="' + args.node.id + '" xlink:href="#heart" x="' + (args.p.xb) + '" y="' + (args.p.yb) + '"/>';
+  });
 
 }
 
-const persons = useCollection(personsRef, { converter: familyItemConvertor })
+const q = query(personsRef, where("visible", "==", true))
+const persons = useCollection(q, { converter: familyItemConvertor })
+// const persons = useCollection(personsRef, { converter: familyItemConvertor })
 
 const getImage = async (item: any) => {
   const result = await item.img.promise
@@ -86,7 +121,7 @@ const getImage = async (item: any) => {
 watch(persons, async (newValue, oldValue) => {
   const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
   console.log(fullNameMapped)
-  renderTree(treeRef.value, fullNameMapped)
+  renderTree(treeRef.value,fullNameMapped )
 
   // renderTree(treeRef.value, nodes.value)
 })
@@ -96,7 +131,7 @@ watch(persons, async (newValue, oldValue) => {
 <template>
   <span v-if="isLoading">Loading...</span>
   <v-dialog v-model="dialog.visible" width="400">
-    <AddPerson :fid="dialog.fid" :id="dialog.id" :gender="dialog.gender" @close="hidePersonAdd" />
+    <AddPerson :id="dialog.id" :fid="dialog.fid" :pids="dialog.pids" :gender="dialog.gender" @close="hidePersonAdd" />
   </v-dialog>
   <div ref="treeRef" class="tree"></div>
 </template>
@@ -106,8 +141,9 @@ watch(persons, async (newValue, oldValue) => {
   width: 100%;
   height: 100%;
 }
-svg.john text{
-  font-family: var(--ar-locale) ;
+
+svg.john text {
+  font-family: var(--ar-locale);
   /* transform: translateY(10px) */
 }
 
@@ -118,11 +154,5 @@ svg.john text{
 .bft-family-menu div {
   display: flex;
   align-items: center;
-}
-
-.field_0 {
-  /* font-family: Impact; */
-  text-transform: uppercase;
-  fill: #cfcfcf;
 }
 </style>

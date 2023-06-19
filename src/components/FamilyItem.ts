@@ -12,15 +12,19 @@ class FamilyItem {
   readonly img: any;
   readonly fid?: string;
   readonly gender: string;
-  readonly pid?: string[]
+  readonly pids?: string[];
+  readonly mid?: string;
+  readonly visible: boolean;
   fullName: any;
 
 
-  constructor(readonly id: string, readonly person: Person) {
+  constructor(readonly id: string, person: Person) {
     this.gender = person.gender
     this.fid = person.fid;
     this.fullName = this.getFullName(person.name);
-    this.pid = person.pid;
+    this.pids = person.pids;
+    this.mid = person.mid;
+    this.visible = person.visible;
     this.img = this.getGender(person.gender)
   }
 

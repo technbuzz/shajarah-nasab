@@ -13,9 +13,12 @@ export interface PersonName {
 
 export interface Person {
   id?: string;
-  pid?: string[];
+  visible: boolean;
+  pids?: string[];
   fid?: string;
+  mid?: string;
   gender: string;
+  order: number;
   name: PersonName;
   fullName?: string,
   description: {
