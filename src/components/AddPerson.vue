@@ -4,10 +4,12 @@ import { deleteDoc, addDoc,  doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref,  onMounted } from 'vue';
 import { personsRef } from '../firebase'
 import type { Person } from "./Person";
+import router from "@/router";
 const { t } = useI18n()
 
 const props = defineProps(['id','fid','mid','gender','pids']);
 const emit = defineEmits(['close'])
+const dialog = ref(true)
 
 const formRef = ref<HTMLFormElement>()
 const submitting = ref(false)
@@ -30,6 +32,7 @@ let form = ref<Person>({
     en: '',
   }
 })
+
 
 onMounted(async () => {
   if (props.id) {
@@ -72,6 +75,11 @@ async function upSertPerson() {
   }
   submitting.value = false
   emit('close')
+  close()
+}
+
+function close() {
+  router.push('/')
 }
 
 async function remove(id:string) {
@@ -80,6 +88,7 @@ async function remove(id:string) {
       const resp =  await getDoc(doc(personsRef, props.id))
       await deleteDoc(doc(personsRef, resp.id))
       emit('close')
+      close()
     } catch (error) {
       console.log('something went wrong')
     }
@@ -90,6 +99,7 @@ async function remove(id:string) {
 </script>
 
 <template>
+  <v-dialog :persistent="true" v-model="dialog" width="400">
   <v-card>
     <v-card-text >
       <v-form ref="formRef"  @submit.prevent="upSertPerson">
@@ -113,16 +123,13 @@ async function remove(id:string) {
         </div>
         <v-textarea v-model="form.description.ur" :label="t('form.desc')" name="description"></v-textarea>
         <v-btn type="submit" color="primary" :loading="submitting">{{ t('verb.save') }}</v-btn>
-        <v-btn @click="$emit('close')">{{ t('verb.close')}}</v-btn>
+        <!-- <v-btn @click="$emit('close')">{{ t('verb.close')}}</v-btn> -->
+        <v-btn @click="close">{{ t('verb.close')}}</v-btn>
         <v-btn @click="remove(form.id)">Delete</v-btn>
 
       </v-form>
     </v-card-text>
   </v-card>
+  </v-dialog>
 </template>
 
-:wa
-
-
-q
-q

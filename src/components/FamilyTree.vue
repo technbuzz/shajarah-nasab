@@ -2,11 +2,11 @@
 import { useCollection } from 'vuefire'
 import FamilyTree from '@balkangraph/familytree.js'
 import { ref, watch } from 'vue';
-import AddPerson from "./AddPerson.vue";
 import { personsRef } from '../firebase';
 import { familyItemConvertor } from './FamilyItem'
 import { query, where } from 'firebase/firestore';
 import type { Person } from './Person';
+import router from '@/router';
 
 const personId = ref<string | undefined>(undefined)
 const addPersonDialog = ref(false)
@@ -65,8 +65,9 @@ editForm.prototype.init = function (obj: any) {
 
 editForm.prototype.show = function (nodeId: any) {
   this.nodeId = nodeId
-  dialog.value = { visible: true, id: nodeId, fid: '' }
-  personId.value = nodeId
+  router.push(`/person/${nodeId}`)
+  // dialog.value = { visible: true, id: nodeId, fid: '' }
+  // personId.value = nodeId
 }
 
 editForm.prototype.hide = function (nodeId: any) {
@@ -149,9 +150,6 @@ watch(persons, async (newValue, oldValue) => {
 
 <template>
   <span v-if="isLoading">Loading...</span>
-  <v-dialog v-model="dialog.visible" width="400">
-    <AddPerson :id="dialog.id" :fid="dialog.fid" :mid="dialog.mid" :pids="dialog.pids" :gender="dialog.gender" @close="hidePersonAdd" />
-  </v-dialog>
   <div ref="treeRef" class="tree"></div>
 </template>
 

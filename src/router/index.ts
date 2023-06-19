@@ -1,5 +1,7 @@
+import path from 'path'
 import { createRouter, createWebHistory } from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
+
+import { useCurrentUser } from "vuefire";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +19,22 @@ const router = createRouter({
     //   // which is lazy-loaded when the route is visited.
     //   component: () => import('../views/AboutView.vue')
     // }
+    {
+      path: '/person/:id',
+      children: [
+        {
+          path: '',
+          component: () => import('../components/AddPerson.vue'),
+          props: true,
+          beforeEnter: () => {
+            const user = useCurrentUser()
+            if(user.value) return true
+            return false
+
+          }
+        }
+      ]
+    }
   ]
 })
 
