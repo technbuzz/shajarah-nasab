@@ -93,11 +93,10 @@ async function remove(id:string) {
   <v-card>
     <v-card-text >
       <v-form ref="formRef"  @submit.prevent="upSertPerson">
-        <!-- <legend>Welcome back!</legend> -->
-        <pre>id {{props.id}} </pre>
-        <pre>fid {{form.fid}}</pre>
-        <pre>pid {{form.pids}}</pre>
-        <pre>mid {{form.mid}}</pre>
+        <!-- <pre>id {{props.id}} </pre> -->
+        <!-- <pre>fid {{form.fid}}</pre> -->
+        <!-- <pre>pid {{form.pids}}</pre> -->
+        <!-- <pre>mid {{form.mid}}</pre> -->
         <div class="flex" >
           <v-select class="me-1.5" v-model="form.name.ur.title" :label="t('form.title')" :items="['', 'Mr.', 'بابا']"></v-select>
           <v-select v-model="form.gender" :label="t('form.gender')" 
@@ -107,9 +106,10 @@ async function remove(id:string) {
           <v-text-field class="me-1.5"  v-model="form.name.ur.firstName" :label="t('form.firstName')" name="firstName" />
           <v-text-field  v-model="form.name.ur.lastName" :label="t('form.lastName')" name="lastName" />
         </div>
-        <!-- <v-checkbox v-model="form.visible" label="Visible"></v-checkbox> -->
         <div class="flex">
           <v-switch color="primary" v-model="form.visible" :label="t('form.visible')" ></v-switch>
+          <v-text-field type="number" v-model.number="form.order" :label="t('form.order')" name="order" />
+
         </div>
         <v-textarea v-model="form.description.ur" :label="t('form.desc')" name="description"></v-textarea>
         <v-btn type="submit" color="primary" :loading="submitting">{{ t('verb.save') }}</v-btn>
