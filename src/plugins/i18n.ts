@@ -20,6 +20,7 @@ const messages = {
       firstName: 'First Name',
       lastName: 'Last Name',
       desc: 'Description',
+      visible: 'Visible'
     }
   },
   ar: {
@@ -41,6 +42,7 @@ const messages = {
       firstName: 'پہلا نام',
       lastName: 'آخری نام',
       desc: 'مزید',
+      visible: 'فعال'
     }
   }
 }
