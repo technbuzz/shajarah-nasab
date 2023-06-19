@@ -97,6 +97,7 @@ function renderTree(domEL: HTMLElement, nodes: any) {
     mouseScrool: FamilyTree.action.scroll,
     // mouseScrool: FamilyTree.action.zoom,
     editUI: new editForm(),
+    orderBy: { field: 'order', desc: true },
     // enableTouch: true,
     template: 'john',
     nodeBinding: {

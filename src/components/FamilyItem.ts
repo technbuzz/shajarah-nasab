@@ -15,6 +15,7 @@ class FamilyItem {
   readonly pids?: string[];
   readonly mid?: string;
   readonly visible: boolean;
+  readonly order : number
   fullName: any;
 
 
@@ -25,6 +26,7 @@ class FamilyItem {
     this.pids = person.pids;
     this.mid = person.mid;
     this.visible = person.visible;
+    this.order = person.order
     this.img = this.getGender(person.gender)
   }
 
