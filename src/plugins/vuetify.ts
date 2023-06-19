@@ -8,7 +8,6 @@ import { VTextField } from 'vuetify/components/VTextField'
 import { VTextarea } from 'vuetify/components/VTextarea'
 import { VSelect } from 'vuetify/components/VSelect'
 import { VSwitch } from 'vuetify/components/VSwitch'
-import { VCheckbox } from 'vuetify/components/VCheckbox'
 import { i18n } from "./i18n";
 import { useI18n } from "vue-i18n";
 
@@ -34,7 +33,6 @@ export const vuetify = createVuetify({
     VTextField,
     VTextarea,
     VSelect,
-    // VSwitch
     VSwitch
   },
   // components,

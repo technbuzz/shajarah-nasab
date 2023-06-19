@@ -34,10 +34,10 @@ function hideLogin() {
     <!-- <div class="wrapperkk"> -->
     <!--   <HelloWorld msg="You did it!" /> -->
     <!---->
-    <!--   <nav> -->
-    <!--     <RouterLink to="/">Home</RouterLink> -->
-    <!--     <RouterLink to="/about">About</RouterLink> -->
-    <!--   </nav> -->
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/person/0iUdHI2mjEtAcK1JtHBg">Person Details</RouterLink>
+      </nav>
     <h1 class="text-2xl mt-2 mb-4 font-bold">شجرۃ نسب ۔ قریش</h1>
     <h2 class="text-xl my-1 mb-6 font-bold">سکن گاون ۔ کنگانہ۔ قوم شیخان ۔ تپہ سموزی</h2> <!-- </div> -->
     <LangSwitcher />

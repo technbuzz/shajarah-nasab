@@ -12,15 +12,12 @@ import { i18n } from './plugins/i18n';
 
 const app = createApp(App)
 
-app
-  .use(i18n)
-  .use(router)
-  .use(VueFire, {
+app.use(i18n)
+  app.use(VueFire, {
     firebaseApp,
     modules: [VueFireAuth()]
   })
-
-  .use(vuetify)
-
-  .mount('#app')
+  app.use(vuetify)
+  app.use(router)
+  app.mount('#app')
 
