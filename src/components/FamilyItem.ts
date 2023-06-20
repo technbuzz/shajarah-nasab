@@ -6,6 +6,8 @@ import { useFirebaseStorage, useStorageFileUrl } from "vuefire";
 const storage = useFirebaseStorage()
 const maleRef = ref(storage, 'male.png')
 const femaleRef = ref(storage, 'female.jpg')
+import male from '@/assets/male.png'
+import female from '@/assets/female.jpg'
 
 class FamilyItem {
 
@@ -26,8 +28,8 @@ class FamilyItem {
     this.pids = person.pids;
     this.mid = person.mid;
     this.visible = person.visible;
-    this.order = person.order
     this.img = this.getGender(person.gender)
+    this.order = person.order
   }
 
   getFullName(name: PersonName) {
@@ -36,11 +38,12 @@ class FamilyItem {
 
   getGender(gender: string): any {
     if(gender === 'male') {
-      return useStorageFileUrl(maleRef)
+      // return useStorageFileUrl(maleRef)
+      return male
     } else {
-      return useStorageFileUrl(femaleRef)
+      return female
+      // return useStorageFileUrl(femaleRef)
     }
-
   }
 
 }

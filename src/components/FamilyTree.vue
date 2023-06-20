@@ -138,13 +138,20 @@ const getImage = async (item: any) => {
   return { ...item, img: result }
 }
 
-watch(persons, async (newValue, oldValue) => {
-  const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
-  console.log(fullNameMapped)
-  renderTree(treeRef.value,fullNameMapped )
+watch(persons, (newValue, oldValue) => {
+  // const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
+  console.log(newValue)
+  renderTree(treeRef.value,newValue )
 
   // renderTree(treeRef.value, nodes.value)
 })
+// watch(persons, async (newValue, oldValue) => {
+//   const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
+//   console.log(fullNameMapped)
+//   renderTree(treeRef.value,fullNameMapped )
+//
+//   // renderTree(treeRef.value, nodes.value)
+// })
 
 </script>
 
