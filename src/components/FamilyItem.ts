@@ -1,11 +1,6 @@
 import type { DocumentData, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
 import { type Person, type PersonName } from "./Person";
-import { ref } from "firebase/storage";
-import { useFirebaseStorage, useStorageFileUrl } from "vuefire";
 
-const storage = useFirebaseStorage()
-const maleRef = ref(storage, 'male.png')
-const femaleRef = ref(storage, 'female.jpg')
 import male from '@/assets/male.png'
 import female from '@/assets/female.jpg'
 
@@ -38,11 +33,9 @@ class FamilyItem {
 
   getGender(gender: string): any {
     if(gender === 'male') {
-      // return useStorageFileUrl(maleRef)
       return male
     } else {
       return female
-      // return useStorageFileUrl(femaleRef)
     }
   }
 
