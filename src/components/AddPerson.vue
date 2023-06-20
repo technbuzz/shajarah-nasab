@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { VDialog } from 'vuetify/components/VDialog'
+import { VTextarea } from 'vuetify/components/VTextarea'
+import { VSwitch } from 'vuetify/components/VSwitch'
+import { VForm } from 'vuetify/components/VForm'
+import { VTextField } from 'vuetify/components/VTextField'
 import { useI18n } from "vue-i18n";
 import { deleteDoc, addDoc,  doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref,  onMounted } from 'vue';

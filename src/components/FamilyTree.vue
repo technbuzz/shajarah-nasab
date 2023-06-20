@@ -95,7 +95,8 @@ function renderTree(domEL: HTMLElement, nodes: any) {
       share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
       pdf: { text: "Add Wife", onClick: addWifeHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
     },
-    mouseScrool: FamilyTree.action.scroll,
+    levelSeparation: 70,
+    // mouseScrool: FamilyTree.action.scroll,
     // mouseScrool: FamilyTree.action.zoom,
     editUI: new editForm(),
     orderBy: { field: 'order', desc: true },
@@ -145,18 +146,14 @@ watch(persons, (newValue, oldValue) => {
 
   // renderTree(treeRef.value, nodes.value)
 })
-// watch(persons, async (newValue, oldValue) => {
-//   const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
-//   console.log(fullNameMapped)
-//   renderTree(treeRef.value,fullNameMapped )
-//
-//   // renderTree(treeRef.value, nodes.value)
-// })
 
 </script>
 
 <template>
-  <span v-if="isLoading">Loading...</span>
+  <div v-if="isLoading" class="flex justify-center mt-28">
+    <v-progress-circular indeterminate :size="70" :width="7" color="primary" />
+  </div>
+  <!-- <span v-if="isLoading">Loading...</span> -->
   <div ref="treeRef" class="tree"></div>
 </template>
 
@@ -167,6 +164,7 @@ watch(persons, (newValue, oldValue) => {
 }
 
 svg.john text {
+  transform: translateY(10px);
   font-family: var(--ar-locale);
 }
 
