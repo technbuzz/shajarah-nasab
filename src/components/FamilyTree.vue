@@ -146,18 +146,14 @@ watch(persons, (newValue, oldValue) => {
 
   // renderTree(treeRef.value, nodes.value)
 })
-// watch(persons, async (newValue, oldValue) => {
-//   const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
-//   console.log(fullNameMapped)
-//   renderTree(treeRef.value,fullNameMapped )
-//
-//   // renderTree(treeRef.value, nodes.value)
-// })
 
 </script>
 
 <template>
-  <span v-if="isLoading">Loading...</span>
+  <div v-if="isLoading" class="flex justify-center mt-28">
+    <v-progress-circular indeterminate :size="70" :width="7" color="primary" />
+  </div>
+  <!-- <span v-if="isLoading">Loading...</span> -->
   <div ref="treeRef" class="tree"></div>
 </template>
 

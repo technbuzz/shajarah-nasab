@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { VDialog } from 'vuetify/components/VDialog'
+import { VForm } from 'vuetify/components/VForm'
+import { VTextField } from 'vuetify/components/VTextField'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { reactive, ref } from 'vue';
 import router from "@/router";
@@ -21,7 +23,6 @@ const form = reactive({
 function doLogin() {
   const auth = getAuth()
   signInWithEmailAndPassword(auth, form.email, form.password)
-    // .then(_ => emits('close'))
     .then(_ => router.push('/'))
     .catch(error => console.log(error))
 }

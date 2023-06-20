@@ -6,7 +6,7 @@ import { getAuth } from 'firebase/auth';
 
 const auth = getAuth()
 const user = useCurrentUser()
-const { t} = useI18n()
+const { t } = useI18n()
 import LangSwitcher from './LangSwitcher.vue'
 import router from "@/router";
 
@@ -25,15 +25,18 @@ function presentLogin() {
     <!-- <div class="wrapperkk"> -->
     <!--   <HelloWorld msg="You did it!" /> -->
     <!---->
-      <nav>
-        <!-- <RouterLink to="/">Home</RouterLink> -->
-        <!-- <RouterLink to="/person/0iUdHI2mjEtAcK1JtHBg">Person Details</RouterLink> -->
-      </nav>
+    <nav>
+      <!-- <RouterLink to="/">Home</RouterLink> -->
+      <!-- <RouterLink to="/person/0iUdHI2mjEtAcK1JtHBg">Person Details</RouterLink> -->
+    </nav>
     <h1 class="text-2xl mt-2 mb-4 font-bold">شجرۃ نسب ۔ قریش</h1>
     <h2 class="text-xl my-1 mb-6 font-bold">سکن گاون ۔ کنگانہ۔ قوم شیخان ۔ تپہ سموزی</h2> <!-- </div> -->
-    <LangSwitcher />
+    <div class="flex">
+      <section>
+        <p v-if="user">{{ t('login') }}<v-btn @click="logout">{{ t('verb.logout') }}</v-btn></p>
+        <p v-else><v-btn @click="presentLogin">{{ t('verb.login') }}</v-btn></p>
+      </section>
+      <LangSwitcher />
+    </div>
   </header>
-  <p v-if="user">{{ t('login') }}<v-btn @click="logout">{{ t('verb.logout')}}</v-btn></p>
-  <p v-else><v-btn @click="presentLogin">{{ t('verb.login')}}</v-btn></p>
-
 </template>
