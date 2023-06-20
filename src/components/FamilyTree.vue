@@ -95,7 +95,8 @@ function renderTree(domEL: HTMLElement, nodes: any) {
       share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
       pdf: { text: "Add Wife", onClick: addWifeHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
     },
-    mouseScrool: FamilyTree.action.scroll,
+    levelSeparation: 70,
+    // mouseScrool: FamilyTree.action.scroll,
     // mouseScrool: FamilyTree.action.zoom,
     editUI: new editForm(),
     orderBy: { field: 'order', desc: true },
@@ -167,6 +168,7 @@ watch(persons, (newValue, oldValue) => {
 }
 
 svg.john text {
+  transform: translateY(10px);
   font-family: var(--ar-locale);
 }
 
