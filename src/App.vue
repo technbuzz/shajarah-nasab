@@ -2,7 +2,7 @@
 
 import { RouterView } from 'vue-router'
 import Header  from "./components/Header.vue";
-import FamilyTree  from "./components/FamilyTree.vue";
+import FamilyTree  from "./components/ftree/FamilyTree.vue";
 
 
 

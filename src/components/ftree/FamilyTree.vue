@@ -2,14 +2,12 @@
 import { useCollection } from 'vuefire'
 import FamilyTree from '@balkangraph/familytree.js'
 import { ref, watch } from 'vue';
-import { personsRef } from '../firebase';
+import { personsRef } from '@/firebase';
 import { familyItemConvertor } from './FamilyItem'
 import { query, where } from 'firebase/firestore';
-import type { Person } from './Person';
-import router from '@/router';
+import type { Person } from '../Person';
+import { editForm } from "./editUI";
 
-const personId = ref<string | undefined>(undefined)
-const addPersonDialog = ref(false)
 interface DialogType {
   visible: boolean, 
   id?: string, 
@@ -21,19 +19,8 @@ interface DialogType {
 const dialog = ref<DialogType>({ visible: false, id: '', fid: '' })
 const isLoading = ref(true)
 
-function presentPerson(id?: string) {
-  addPersonDialog.value = true
-  personId.value = id
-}
-
-function hidePersonAdd() {
-  dialog.value = { visible: false }
-}
-
-
 let family: FamilyTree
 const treeRef = ref<HTMLDivElement>()
-
 
 const addSonHandler = (nodeId: string, ...args:any[]) => {
   const node = family.get(nodeId) as Person
@@ -43,6 +30,7 @@ const addSonHandler = (nodeId: string, ...args:any[]) => {
     dialog.value = { visible: true, fid: nodeId, gender: 'male' }
   }
 }
+
 const addDaughterHandler = (nodeId: string) => {
   const node = family.get(nodeId) as Person
   if(node.gender === 'female' && node.pids?.length) {
@@ -51,28 +39,11 @@ const addDaughterHandler = (nodeId: string) => {
     dialog.value = { visible: true, fid: nodeId, gender: 'female' }
   }
 }
+
 const addWifeHandler = (nodeId: string) => {
   dialog.value = { visible: true, pids: [nodeId], gender: 'female' }
 }
 
-let editForm = function () {
-  this.nodeId = null
-}
-
-editForm.prototype.init = function (obj: any) {
-  this.obj = obj
-}
-
-editForm.prototype.show = function (nodeId: any) {
-  this.nodeId = nodeId
-  router.push(`/person/${nodeId}`)
-  // dialog.value = { visible: true, id: nodeId, fid: '' }
-  // personId.value = nodeId
-}
-
-editForm.prototype.hide = function (nodeId: any) {
-  console.log('hidden')
-}
 
 FamilyTree.templates.john_male.plus =
     '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
@@ -86,10 +57,12 @@ FamilyTree.templates.john_male.defs =
   `<g transform="matrix(0.05,0,0,0.05,-12,-9)" id="heart">
     <path fill="#FFEEEE" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909  l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778 c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654 c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/>
   <g>`;
+
 function renderTree(domEL: HTMLElement, nodes: any) {
   family = new FamilyTree(domEL, {
     nodes: nodes,
     enableSearch: false,
+    state: null,
     nodeContextMenu: {
       edit: { text: "Add Son", onClick: addSonHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
       share: { text: "Add Daughter", onClick: addDaughterHandler, icon: FamilyTree.icon.addUser(18, 18, '#039BE5') },
@@ -97,19 +70,21 @@ function renderTree(domEL: HTMLElement, nodes: any) {
     },
     levelSeparation: 70,
     // mouseScrool: FamilyTree.action.scroll,
-    // mouseScrool: FamilyTree.action.zoom,
+    mouseScrool: FamilyTree.action.zoom,
     editUI: new editForm(),
     orderBy: { field: 'order', desc: true },
-    // enableTouch: true,
     template: 'john',
     nodeBinding: {
       field_0: "fullName",
+      field_1: "description",
       img_0: "img",
     }
   })
+
   family.on('ready', () => {
     isLoading.value = false
   })
+
   family.on('expcollclick', function (sender, isCollapsing, nodeId) {
     var node = family.getNode(nodeId);
     if (isCollapsing) {
@@ -153,7 +128,6 @@ watch(persons, (newValue, oldValue) => {
   <div v-if="isLoading" class="flex justify-center mt-28">
     <v-progress-circular indeterminate :size="70" :width="7" color="primary" />
   </div>
-  <!-- <span v-if="isLoading">Loading...</span> -->
   <div ref="treeRef" class="tree"></div>
 </template>
 
