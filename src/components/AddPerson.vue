@@ -4,6 +4,7 @@ import { VTextarea } from 'vuetify/components/VTextarea'
 import { VSwitch } from 'vuetify/components/VSwitch'
 import { VForm } from 'vuetify/components/VForm'
 import { VTextField } from 'vuetify/components/VTextField'
+
 import { useI18n } from "vue-i18n";
 import { deleteDoc, addDoc,  doc, getDoc, setDoc } from 'firebase/firestore';
 import { ref,  onMounted } from 'vue';
@@ -19,9 +20,11 @@ const dialog = ref(true)
 const formRef = ref<HTMLFormElement>()
 const submitting = ref(false)
 
+
 let form = ref<Person>({
-  fid: "",
-  gender: "",
+  fid: history.state?.fid,
+  mid: history.state?.mid,
+  gender: history.state?.gender,
   visible: true,
   order: 0,
   pids: [],
@@ -40,6 +43,7 @@ let form = ref<Person>({
 
 
 onMounted(async () => {
+  console.log(router.currentRoute)
   if (props.id) {
     const resp =  await getDoc(doc(personsRef, props.id))
     form.value = resp.data() as unknown as any
@@ -61,6 +65,7 @@ onMounted(async () => {
 //   }
 
 })
+
 
 function setGenderField() {
     if(props.gender === 'male') {
@@ -108,10 +113,10 @@ async function remove(id:string) {
   <v-card>
     <v-card-text >
       <v-form ref="formRef"  @submit.prevent="upSertPerson">
-        <!-- <pre>id {{props.id}} </pre> -->
-        <!-- <pre>fid {{form.fid}}</pre> -->
-        <!-- <pre>pid {{form.pids}}</pre> -->
-        <!-- <pre>mid {{form.mid}}</pre> -->
+        <pre>id {{props.id}} </pre>
+        <pre>fid {{form.fid}}</pre>
+        <pre>pid {{form.pids}}</pre>
+        <pre>mid {{form.mid}}</pre>
         <div class="flex" >
           <v-select class="me-1.5" v-model="form.name.ur.title" :label="t('form.title')" :items="['', 'Mr.', 'بابا']"></v-select>
           <v-select v-model="form.gender" :label="t('form.gender')" 

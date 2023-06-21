@@ -7,6 +7,7 @@ import { familyItemConvertor } from './FamilyItem'
 import { query, where } from 'firebase/firestore';
 import type { Person } from '../Person';
 import { editForm } from "./editUI";
+import router from '@/router';
 
 interface DialogType {
   visible: boolean, 
@@ -36,6 +37,7 @@ const addDaughterHandler = (nodeId: string) => {
   if(node.gender === 'female' && node.pids?.length) {
     dialog.value = { visible: true, fid: node.pids[0], mid: node.id, gender: 'female' }
   } else {
+    router.push({state : {fid: nodeId, gender: 'female'}, name: 'new'})
     dialog.value = { visible: true, fid: nodeId, gender: 'female' }
   }
 }

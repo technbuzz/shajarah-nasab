@@ -24,18 +24,24 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // }
     {
-      path: '/person/:id',
+      path: '/person',
+      beforeEnter: () => {
+        const user = useCurrentUser()
+        if (user.value) return true
+        return false
+
+      },
       children: [
         {
-          path: '',
+          path: ':id',
           component: () => import('../components/AddPerson.vue'),
           props: true,
-          beforeEnter: () => {
-            const user = useCurrentUser()
-            if(user.value) return true
-            return false
-
-          }
+        }, 
+        {
+          path: 'new',
+          name: 'new',
+          component: () => import('../components/AddPerson.vue'),
+          props: true,
         }
       ]
     }
