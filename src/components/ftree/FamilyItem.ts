@@ -1,5 +1,5 @@
 import type { DocumentData, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
-import { type Person, type PersonName } from "./Person";
+import { type Person, type PersonName } from "../Person";
 
 import male from '@/assets/male.png'
 import female from '@/assets/female.jpg'
@@ -13,6 +13,7 @@ class FamilyItem {
   readonly mid?: string;
   readonly visible: boolean;
   readonly order : number
+  readonly description: string;
   fullName: any;
 
 
@@ -20,6 +21,7 @@ class FamilyItem {
     this.gender = person.gender
     this.fid = person.fid;
     this.fullName = this.getFullName(person.name);
+    this.description = this.getDesc(person.description)
     this.pids = person.pids;
     this.mid = person.mid;
     this.visible = person.visible;
@@ -29,6 +31,10 @@ class FamilyItem {
 
   getFullName(name: PersonName) {
     return name.ur.title + ' ' + name.ur.firstName + ' ' + name.ur.lastName
+  }
+
+  getDesc(desc: any) {
+    return desc.ur
   }
 
   getGender(gender: string): any {
