@@ -9,53 +9,43 @@ import type { Person } from '../Person';
 import { editForm } from "./editUI";
 import router from '@/router';
 
-interface DialogType {
-  visible: boolean, 
-  id?: string, 
-  pids?: string[], 
-  fid?: string, 
-  gender?: 'male' | 'female',
-  mid?: string
-}
-const dialog = ref<DialogType>({ visible: false, id: '', fid: '' })
 const isLoading = ref(true)
 
 let family: FamilyTree
 const treeRef = ref<HTMLDivElement>()
 
-const addSonHandler = (nodeId: string, ...args:any[]) => {
+const addSonHandler = (nodeId: string, ...args: any[]) => {
   const node = family.get(nodeId) as Person
-  if(node.gender === 'female' && node.pids?.length) {
-    dialog.value = { visible: true, fid: node.pids[0], mid: node.id, gender: 'male' }
+  if (node.gender === 'female' && node.pids?.length) {
+    router.push({ state: { fid: node.pids[0], mid: node.id, gender: 'male' }, name: 'new' })
   } else {
-    dialog.value = { visible: true, fid: nodeId, gender: 'male' }
+    router.push({ state: { fid: nodeId, gender: 'male' }, name: 'new' })
   }
 }
 
 const addDaughterHandler = (nodeId: string) => {
   const node = family.get(nodeId) as Person
-  if(node.gender === 'female' && node.pids?.length) {
-    dialog.value = { visible: true, fid: node.pids[0], mid: node.id, gender: 'female' }
+  if (node.gender === 'female' && node.pids?.length) {
+    router.push({ state: { fid: node.pids[0], mid: node.id, gender: 'female' }, name: 'new' })
   } else {
-    router.push({state : {fid: nodeId, gender: 'female'}, name: 'new'})
-    dialog.value = { visible: true, fid: nodeId, gender: 'female' }
+    router.push({ state: { fid: nodeId, gender: 'female' }, name: 'new' })
   }
 }
 
 const addWifeHandler = (nodeId: string) => {
-  dialog.value = { visible: true, pids: [nodeId], gender: 'female' }
+  router.push({ state: { pids: [nodeId], gender: 'female' }, name: 'new' })
 }
 
 
 FamilyTree.templates.john_male.plus =
-    '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
-    + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>'
-    + '<line x1="0" y1="-11" x2="0" y2="11" stroke-width="1" stroke="#aeaeae"></line>';
+  '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+  + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>'
+  + '<line x1="0" y1="-11" x2="0" y2="11" stroke-width="1" stroke="#aeaeae"></line>';
 FamilyTree.templates.john_male.minus =
-    '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
-    + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>';
+  '<circle cx="0" cy="0" r="15" fill="#ffffff" stroke="#aeaeae" stroke-width="1"></circle>'
+  + '<line x1="-11" y1="0" x2="11" y2="0" stroke-width="1" stroke="#aeaeae"></line>';
 
-FamilyTree.templates.john_male.defs = 
+FamilyTree.templates.john_male.defs =
   `<g transform="matrix(0.05,0,0,0.05,-12,-9)" id="heart">
     <path fill="#FFEEEE" d="M438.482,58.61c-24.7-26.549-59.311-41.655-95.573-41.711c-36.291,0.042-70.938,15.14-95.676,41.694l-8.431,8.909  l-8.431-8.909C181.284,5.762,98.663,2.728,45.832,51.815c-2.341,2.176-4.602,4.436-6.778,6.778 c-52.072,56.166-52.072,142.968,0,199.134l187.358,197.581c6.482,6.843,17.284,7.136,24.127,0.654 c0.224-0.212,0.442-0.43,0.654-0.654l187.29-197.581C490.551,201.567,490.551,114.77,438.482,58.61z"/>
   <g>`;
@@ -119,7 +109,7 @@ const getImage = async (item: any) => {
 watch(persons, (newValue, oldValue) => {
   // const fullNameMapped = await Promise.all(newValue.map(item => getImage(item)))
   console.log(newValue)
-  renderTree(treeRef.value,newValue )
+  renderTree(treeRef.value, newValue)
 
   // renderTree(treeRef.value, nodes.value)
 })
