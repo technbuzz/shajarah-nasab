@@ -18,6 +18,7 @@ const dialog = ref(true)
 
 const formRef = ref<HTMLFormElement>()
 const submitting = ref(false)
+const deleting = ref(false)
 
 
 let form = ref<Person>({
@@ -67,6 +68,7 @@ function close() {
 
 async function remove() {
   if(props.id) {
+      deleting.value = true
     try {
       const resp =  await getDoc(doc(personsRef, props.id))
       await deleteDoc(doc(personsRef, resp.id))
@@ -74,6 +76,7 @@ async function remove() {
     } catch (error) {
       console.log('something went wrong')
     }
+      deleting.value = false
   }
 }
 
@@ -107,7 +110,7 @@ async function remove() {
         <v-btn type="submit" color="primary" :loading="submitting">{{ t('verb.save') }}</v-btn>
         <!-- <v-btn @click="$emit('close')">{{ t('verb.close')}}</v-btn> -->
         <v-btn @click="close">{{ t('verb.close')}}</v-btn>
-        <v-btn @click="remove(form.id)">Delete</v-btn>
+        <v-btn @click="remove" :loading="deleting">Delete</v-btn>
 
       </v-form>
     </v-card-text>
